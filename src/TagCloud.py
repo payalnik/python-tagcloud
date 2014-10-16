@@ -34,6 +34,20 @@ class TagCloud(object):
 			count += 1
 		
 		return formattedWords
+
+	def min(self,l):
+		min = 10000000
+		for i in l: 
+			if i['weight']<min: 
+				min = i['weight']
+		return min
+		
+	def max(self,l):
+		max = 0
+		for i in l: 
+			if i['weight']>max: 
+				max = i['weight']
+		return max
 		
 	def draw(self, words, imageFilePath=None):
 		self.words = words
@@ -47,7 +61,7 @@ class TagCloud(object):
 			if index == length - 1:
 				weight = 0
 			else:
-				weight = self._rescaleWeight(word['weight'], self.words[0]['weight'], self.words[-1]['weight'])
+				weight = self._rescaleWeight(word['weight'], self.max(self.words), self.min(self.words))
 			self._findCoordinates(index, word['text'], int(weight))
 			index += 1
 	
